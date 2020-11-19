@@ -8,6 +8,7 @@
 # Dorin, Igor, Abdi and tutor Liviu Patrasco who helped us the most. Also I used teacher Justin's code example
 # "fantasyfootball" which was my backbone to write Jobhunter.py.
 
+
 import mysql.connector
 import sys
 import json
@@ -59,6 +60,7 @@ def add_new_job(cursor, jobdetails):
 
     if jobdetails['id'] == '46ab84b4-12dc-4a95-ab08-422428554dfc':
         print(jobdetails)
+
 
     cursor.execute(query, (
         jobdetails['type'],
@@ -118,7 +120,7 @@ def load_config_file(filename):
         file.write('{ "title" : "Software", "location" : "Remote" }')
         file.close()
 
-    # Add in information for argument dictionary
+    ## Add in information for argument dictionary
     argument_dictionary = json.loads(file_contents)
     return argument_dictionary
 
@@ -129,7 +131,7 @@ def jobhunt(cursor, arg_dict):
     # print(arg_dict)
     jobpage = fetch_new_jobs(arg_dict)
 
-    # Add your code here to parse the job page
+    ## Add your code here to parse the job page
 
     for jobdetails in jobpage:
         count = check_if_job_exists(cursor, jobdetails).fetchone()
@@ -139,11 +141,11 @@ def jobhunt(cursor, arg_dict):
             print("Hey user, there is a new job posting! Check this out: " + json.dumps(jobdetails))
 
 
-    # Add in your code here to check if the job already exists in the DB
+    ## Add in your code here to check if the job already exists in the DB
 
-    # Add in your code here to notify the user of a new posting
+    ## Add in your code here to notify the user of a new posting
 
-    # EXTRA CREDIT: Add your code to delete old entries
+    ## EXTRA CREDIT: Add your code to delete old entries
     delete_job(cursor, jobdetails)
 
 
@@ -156,8 +158,8 @@ def main():
     create_tables(cursor, "jobs")
     # Load text file and store arguments into dictionary
     # { "title" : "Software", "location" : "Remote" }
-    arg_dict = 0  #load_config_file(sys.argv[1])
-    while 1:
+    arg_dict = load_config_file(sys.argv[1])
+    while (1):
         jobhunt(cursor, arg_dict)
         conn.commit()
         time.sleep(3600)  # Sleep for 1h
